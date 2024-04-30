@@ -29,7 +29,7 @@ router.group(() => {
     router.group(() => {
       router.get('/', '#controllers/movie_favorises_controller.index')
       router.post('/', '#controllers/movie_favorises_controller.store')
-      router.delete('/:id', '#controllers/movie_favorises_controller.destroy')
+      router.delete('/:user_id/:movie_id', '#controllers/movie_favorises_controller.destroy')
       router.get('/:id', '#controllers/movie_favorises_controller.show')
     }).prefix('favorises')
 

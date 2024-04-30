@@ -26,6 +26,20 @@ export default class MovieFavorisesController {
     // store
     public async store({ request, response }: HttpContext) {
         const data = request.only(['user_id', 'movie_id'])
+        
+        const exists = await MovieFavoris.query()
+        .where('user_id', data.user_id)
+        .andWhere('movie_id', data.movie_id)
+        .first();
+        
+        if (exists) {
+            console.log('exists', exists);
+            exists.delete();
+            return response.status(200).json({
+                message: 'Movie favoris deleted',
+                code: 200
+            });
+        }
 
         const movieFavoris = await MovieFavoris.create(data)
 

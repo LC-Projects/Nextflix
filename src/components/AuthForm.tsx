@@ -26,11 +26,10 @@ export default function AuthForm() {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    console.log("==>", email, password);
-
     await loginDB(email, password).then((res: AuthenticationI) => {
       if (res.code === 200) {
         dispatch(login({
+          id: res.user.id,
           token: res.token.token,
           email: res.user.email,
           password,

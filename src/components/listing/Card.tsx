@@ -19,15 +19,17 @@ export default function Card({ data, favoriteData }: { data: MovieResultsI, favo
     const [favorite, setFavorite] = useState(favoriteData ? true : false);
 
     const handleFavorite = () => {
-        addFavoriteMovie(auth.account_id!, data.id, !favorite);
+        if(auth.id) {
+          addFavoriteMovie(auth.id, data.id);
+        }
         dispatch(setReload(!auth.reload))
-        setFavorite(favorite);
+        // setFavorite(favorite);
     };
 
     useEffect(() => {
         if (favoriteData) {
             favoriteData.map((item) => {
-                if (item.id === data.id) {
+                if (item.id == data.id) {
                     setFavorite(true);
                 }
             });

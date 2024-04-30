@@ -16,12 +16,11 @@ export async function getMovies(api_key: string, page: number = 1) {
 };
 
 // add to favorite
-export async function addFavoriteMovie(account_id: string, media_id: number, add: boolean) {
-    const url = `https://api.themoviedb.org/3/account/${account_id}/favorite`;
+export async function addFavoriteMovie(user_id: string, movie_id: number) {
+    const url = `http://localhost:3333/api/movies/favorises`;
     const bodyJSON = {
-        media_type: "movie",
-        media_id,
-        favorite: add
+        user_id,
+        movie_id
     };
 
     const res = await GiveData(url, "POST", bodyJSON);

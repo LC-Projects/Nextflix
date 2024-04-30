@@ -2,6 +2,7 @@ import { useAppSelector } from "../app/hooks";
 import { useEffect, useState } from "react";
 import { getMovies } from "../api/moviesRequest";
 import { MovieResultsI } from "../types/MovieResultsI";
+import APP_CONFIGS from "../variables/configs";
 
 export default function useGetMovies(): { movies: MovieResultsI[] } {
     // Redux
@@ -11,10 +12,10 @@ export default function useGetMovies(): { movies: MovieResultsI[] } {
     const [movies, setMovies] = useState<MovieResultsI[]>([]);
 
     useEffect(() => {
-        if (!auth.api_key) return;
+        if (!APP_CONFIGS.api_key) return;
 
         (async () => {
-            const res = await getMovies(auth.api_key as string);
+            const res = await getMovies(APP_CONFIGS.api_key);
 
             console.log(res)
 

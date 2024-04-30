@@ -21,6 +21,10 @@ router.group(() => {
   router.post('/logout', '#controllers/auth_controller.logout')
 
   router.group(() => {
+    router.post('/', '#controllers/auth_controller.me')
+  }).prefix('account')
+
+  router.group(() => {
     
     router.group(() => {
       router.get('/', '#controllers/movie_favorises_controller.index')

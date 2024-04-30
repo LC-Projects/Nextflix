@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthI } from "../../types/auth";
 
 const initialState: AuthI = {
+  id: null,
   token: null,
   email: null,
   password: null,
@@ -15,6 +16,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action: PayloadAction<AuthI>) => {
+      state.id = action.payload.id;
       state.token = action.payload.token;
       state.email = action.payload.email;
       state.password = action.payload.password;

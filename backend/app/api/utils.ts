@@ -1,7 +1,8 @@
-import { ConfigurationI } from "../types/configuration/ConfigurationI";
+import { ConfigurationI } from "./types/ConfigurationI.js";
+import APP_CONFIGS from "./variables.js";
 
 export async function fetchData<D>(url: string, params: {} = {}): Promise<D> {
-    const token =  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3OWY4MjJlYzZhNzRlYjFhMDZiNDE5N2IzZDdkY2RmNSIsInN1YiI6IjY1OTZjMGRiNTkwN2RlNWJhNjYzYmY4MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.EIb4K1jsgOWShqn-crPZ0Ha6Bo3n4v77bDpJmNMOk3Y"
+    const token =  APP_CONFIGS.token;
     const options = {
         headers: {
             accept: 'application/json',
@@ -16,11 +17,13 @@ export async function fetchData<D>(url: string, params: {} = {}): Promise<D> {
 };
 
 export async function GiveData<D>(url: string, method: "POST" = "POST", bodyJSON: object = {}): Promise<D> {
+    const token =  APP_CONFIGS.token;
     const options = {
         method,
         headers: {
             accept: 'application/json',
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            Authorization: `Bearer ${token}`
           },
         body: JSON.stringify(bodyJSON)
         }
@@ -32,9 +35,9 @@ export async function GiveData<D>(url: string, method: "POST" = "POST", bodyJSON
 };
 
 
-export async function getImages(api_key: string, imgPath:string, imgSize?: string) {
+export async function getImages(imgPath:string, imgSize?: string) {
     const configUrl = "https://api.themoviedb.org/3/configuration?";
-    const configRes = await fetchData<ConfigurationI>(configUrl, {api_key});
+    const configRes = await fetchData<ConfigurationI>(configUrl, {api_key: APP_CONFIGS.api_key});
     if (configRes) {
         const { images } = configRes;
         const { secure_base_url, poster_sizes } = images;

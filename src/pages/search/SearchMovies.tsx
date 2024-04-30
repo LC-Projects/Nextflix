@@ -2,25 +2,27 @@ import styled from "styled-components";
 import Listing from "../../components/listing/Listing";
 import { FormEvent, useEffect, useState } from "react";
 import { fetchData } from "../../api/utilis";
-import { useAppSelector } from "../../app/hooks";
 import { MovieResultsI } from "../../types/MovieResultsI";
 import { MoviesI } from "../../types/MoviesI";
+import APP_CONFIGS from "../../variables/configs";
 
 export default function SearchMovies() {
     const [search, setSearch] = useState("");
     const [movies, setMovies] = useState<MovieResultsI[]>([]);
-    const auth = useAppSelector((state) => state.auth);
 
     const handleSearch = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setSearch(e.currentTarget.search.value);
+
+        const formData = new FormData(e.currentTarget as HTMLFormElement);
+        const search = formData.get("search") as string;
+        setSearch(search);
     }
 
     useEffect(() => {
         const searchMovies = async () => {
             const url = `https://api.themoviedb.org/3/search/movie?`;
             const params = {
-                api_key: auth.api_key,
+                api_key: APP_CONFIGS.api_key,
                 query: search,
             }
 

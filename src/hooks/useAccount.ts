@@ -1,16 +1,15 @@
-import { fetchData } from "../api/utilis";
+import { fetchDB } from "../api/utilis";
 import { useAppSelector } from "../app/hooks";
 import { useEffect, useState } from "react";
 
-export default function useAccount<R>(endPoint: string = "", params: object = {}): { account: R } {
-  const auth = useAppSelector((state) => state.auth);
+export default function useAccount<R>(params: object = {}): { account: R } {
 
   const [account, setAccount] = useState<R>({} as R);
 
   useEffect(() => {
     const getAccount = async () => {
-      const url = `https://api.themoviedb.org/3/account/${auth.account_id}${endPoint ? `/${endPoint}` : ""}`;
-      const response = await fetchData<R>(url, params);
+      const url = `http://localhost:3333/api/account/`;
+      const response = await fetchDB<R>(url, params, "POST");
       if (response) {
         return response;
       } else {

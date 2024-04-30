@@ -3,6 +3,7 @@ import { registerValidator, loginValidator } from '#validators/auth';
 import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db';
 import { randomUUID } from 'crypto';
+import { getMovieById } from '../api/tmdb.js';
 
 export default class AuthController {
     public async register({ request, response }: HttpContext) {
@@ -20,8 +21,7 @@ export default class AuthController {
             return response.status(401).json({ message: 'Invalid credentials', code: 401 })
         }
         const token = await User.accessTokens.create(user);
-        const user_comments = await User.query().where('id', user.id).preload('comments').first();
-        const user_info = {...user_comments?.serialize(), password: undefined}
+        const user_info = {...user?.serialize(), password: undefined}
         return response.status(200).json({ message: 'User logged succesfully', code: 200, token: token, user: user_info })
     }
 
@@ -32,5 +32,22 @@ export default class AuthController {
         await User.accessTokens.delete(user, user.id);
         await db.from('auth_access_tokens').where('tokenable_id', user.id).delete();
         return response.status(200).json({ message: 'User logout succesfully', code: 200 })
+    }
+
+    public async me({ request, response }: HttpContext) {
+        // Add favoris and to_watch
+        const { user_id } = request.only(['user_id']);
+        const user = await User.query().where('id', user_id).preload('movie_comments')
+        .preload("movie_favoris").preload("movie_to_watch").first();
+        if (!user) {
+            return response.status(404).json({ message: 'User not found', code: 404 })
+        }
+        const user_movie_favoris = await Promise.all(user.movie_favoris.map(async (movie) => {
+            const movie_info = await getMovieById(movie.movie_id);
+            return movie_info;
+        }));
+
+        const user_info = {...user?.serialize(), password: undefined, movie_favoris: user_movie_favoris}
+        return response.status(200).json({ message: 'User retrieved succesfully', code: 200, user: user_info })
     }
 }

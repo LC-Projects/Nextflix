@@ -6,6 +6,8 @@ import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import MovieComment from './movie_comment.js'
 import * as relations from '@adonisjs/lucid/types/relations';
+import MovieFavoris from './movie_favoris.js'
+import MovieToWatch from './movie_to_watch.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -45,5 +47,19 @@ export default class User extends compose(BaseModel, AuthFinder) {
     foreignKey: 'user_id'
   })
 
-  declare comments: relations.HasMany<typeof MovieComment> 
+  declare movie_comments: relations.HasMany<typeof MovieComment>
+
+  @hasMany(() => MovieFavoris, {
+    localKey: 'id',
+    foreignKey: 'user_id'
+  })
+
+  declare movie_favoris: relations.HasMany<typeof MovieFavoris>
+
+  @hasMany(() => MovieToWatch, {
+    localKey: 'id',
+    foreignKey: 'user_id'
+  })
+
+  declare movie_to_watch: relations.HasMany<typeof MovieToWatch> 
 }

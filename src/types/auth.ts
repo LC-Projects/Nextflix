@@ -1,4 +1,5 @@
 export interface AuthI {
+    id: string | null,
     token: string | null,
     email: string | null
     password: string | null

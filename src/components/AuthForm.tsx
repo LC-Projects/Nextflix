@@ -5,7 +5,7 @@ import { AuthenticationI } from "../types/auth";
 import colors from "../variables/colors";
 import general from "../variables/general";
 import { useNavigate } from "react-router-dom";
-import { loginViaApi } from "../api/authRequest";
+import { loginDB } from "../api/authRequest";
 import { useState } from "react";
 
 export default function AuthForm() {
@@ -22,21 +22,25 @@ export default function AuthForm() {
 
     setError("");
 
-    const api_key = e.currentTarget.apikey.value;
-    const account_id = e.currentTarget.accountId.value;
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
 
-    await loginViaApi(api_key).then((res: AuthenticationI) => {
-      if (res.success) {
+    console.log("==>", email, password);
+
+    await loginDB(email, password).then((res: AuthenticationI) => {
+      if (res.code === 200) {
         dispatch(login({
-          api_key,
-          account_id,
+          token: res.token.token,
+          email: res.user.email,
+          password,
           loading: false,
           error: "",
           reload: false
         }));
         navigate("/");
       } else {
-        setError(res.status_message);
+        setError(res.message);
       }
     });
   };
@@ -49,8 +53,8 @@ export default function AuthForm() {
         TMBD <small>by Lucky Marty</small>
       </h1>
       <form onSubmit={handleSubmit}>
-        <input name="apikey" type="text" placeholder="API KEY" />
-        <input name="accountId" type="text" placeholder="Account ID" />
+        <input name="email" type="mail" placeholder="Email" />
+        <input name="password" type="password" placeholder="Password" />
     
         <button type="submit">Login</button>
       </form>

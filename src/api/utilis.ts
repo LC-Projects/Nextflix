@@ -44,3 +44,18 @@ export async function getImages(api_key: string, imgPath:string, imgSize?: strin
         return secure_base_url + imgSizeToUse + imgPath;
     }
 }
+
+export async function fetchDB<D>(url: string, body: {} = {}, method="GET"): Promise<D> {
+    const options = {
+        method: method,
+        headers: {
+            accept: 'application/json',
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(body)
+        }
+    return await fetch(url, options)
+        .then((response) => response.json())
+        .then((data) => {return data as D})
+        .catch((error) => error);
+};

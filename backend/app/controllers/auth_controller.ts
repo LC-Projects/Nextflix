@@ -15,12 +15,13 @@ export default class AuthController {
     
     public async login({ request, response }: HttpContext) {
         const payload = await request.validateUsing(loginValidator);
-        const user = await User.verifyCredentials(payload.email, payload.password);
+        const user = (await User.verifyCredentials(payload.email, payload.password));
         if (!user) {
             return response.status(401).json({ message: 'Invalid credentials', code: 401 })
         }
         const token = await User.accessTokens.create(user);
-        const user_info = {...user.serialize(), password: undefined}
+        const user_comments = await User.query().where('id', user.id).preload('comments').first();
+        const user_info = {...user_comments?.serialize(), password: undefined}
         return response.status(200).json({ message: 'User logged succesfully', code: 200, token: token, user: user_info })
     }
 

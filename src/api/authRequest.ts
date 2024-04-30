@@ -1,5 +1,5 @@
 import { AuthenticationI } from "../types/auth";
-import { fetchData } from "./utilis";
+import { fetchData, fetchDB } from "./utilis";
 
 export async function loginViaApi(api_key: string) {
     const url = "https://api.themoviedb.org/3/authentication?";
@@ -9,4 +9,13 @@ export async function loginViaApi(api_key: string) {
  
 
     return await fetchData<AuthenticationI>(url, params);
+}
+
+export async function loginDB(email: string, password: string) {
+    const url = "http://localhost:3333/api/login"; 
+    const body = {
+        email,
+        password
+    }
+    return await fetchDB<AuthenticationI>(url, body, "POST");
 }

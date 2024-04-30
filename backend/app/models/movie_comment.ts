@@ -1,6 +1,8 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 
-export default class Comment extends BaseModel {
+export default class MovieComment extends BaseModel {
+  public static primaryKey = 'user_id'
+  
   @column()
   declare user_id: number
 

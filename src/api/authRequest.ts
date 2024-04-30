@@ -19,3 +19,12 @@ export async function loginDB(email: string, password: string) {
     }
     return await fetchDB<AuthenticationI>(url, body, "POST");
 }
+
+// loginDN with token
+export async function loginWithToken(token: string) {
+    const url = "http://localhost:3333/api/login_with_token"; 
+    const body = {
+        token
+    }
+    return await fetchDB<AuthenticationI>(url, body, "POST");
+}

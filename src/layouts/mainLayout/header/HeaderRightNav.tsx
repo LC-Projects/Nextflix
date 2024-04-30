@@ -4,12 +4,14 @@ import { RiSearch2Line } from "react-icons/ri";
 import { useAppDispatch } from "../../../app/hooks";
 import { logout } from "../../../features/auth/authSlices";
 import { Link } from "react-router-dom";
+import { eraseCookie } from "../../../api/utilis";
 
 export default function HeaderRightNav() {
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
     dispatch(logout());
+    eraseCookie("token");
   };
 
   return (

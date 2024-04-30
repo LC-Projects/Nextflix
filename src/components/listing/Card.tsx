@@ -23,7 +23,7 @@ export default function Card({ data, favoriteData }: { data: MovieResultsI, favo
           addFavoriteMovie(auth.id, data.id);
         }
         dispatch(setReload(!auth.reload))
-        // setFavorite(favorite);
+        setFavorite(!favorite);
     };
 
     useEffect(() => {

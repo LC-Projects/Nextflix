@@ -5,8 +5,9 @@ import { AuthenticationI } from "../types/auth";
 import colors from "../variables/colors";
 import general from "../variables/general";
 import { useNavigate } from "react-router-dom";
-import { loginDB } from "../api/authRequest";
-import { useState } from "react";
+import { loginDB, loginWithToken } from "../api/authRequest";
+import { useEffect, useState } from "react";
+import { createCookie, readCookie } from "../api/utilis";
 
 export default function AuthForm() {
   // Redux
@@ -37,12 +38,38 @@ export default function AuthForm() {
           error: "",
           reload: false
         }));
+        createCookie("token", res.token.token)
         navigate("/");
       } else {
         setError(res.message);
       }
     });
   };
+
+  useEffect(() => {
+    const token = readCookie("token");
+    if(token){
+      async () => {
+        await loginWithToken(token).then((res: AuthenticationI) => {
+            console.log('MAMAMAMAMAMAMA->',res)
+            if (res.code === 200) {
+                dispatch(login({
+                    id: res.user.id,
+                    token: res.token.token,
+                    email: res.user.email,
+                    password: null,
+                    loading: false,
+                    error: "",
+                    reload: false
+                }));
+                navigate("/");
+            }
+            
+        });
+    }
+  };
+  }, []);
+  
 
   //   Render
   return (

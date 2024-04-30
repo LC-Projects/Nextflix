@@ -21,6 +21,8 @@ export default class AuthController {
             return response.status(401).json({ message: 'Invalid credentials', code: 401 })
         }
         const token = await User.accessTokens.create(user);
+        await User.query().where('id', user.id).update({token: token.toJSON().token});
+        
         const user_info = {...user?.serialize(), password: undefined}
         return response.status(200).json({ message: 'User logged succesfully', code: 200, token: token, user: user_info })
     }
@@ -49,5 +51,15 @@ export default class AuthController {
 
         const user_info = {...user?.serialize(), password: undefined, movie_favoris: user_movie_favoris}
         return response.status(200).json({ message: 'User retrieved succesfully', code: 200, user: user_info })
+    }
+
+    // login with token
+    public async loginWithToken({ request, response }: HttpContext) {
+        const { token } = request.only(['token']);
+        const user = await User.findBy('token', token);
+        if (!user) {
+            return response.status(401).json({ message: 'Invalid token', code: 401 })
+        }
+        return response.status(200).json({ message: 'User logged succesfully', code: 200, user: user })
     }
 }

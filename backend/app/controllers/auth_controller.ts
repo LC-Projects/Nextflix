@@ -48,8 +48,13 @@ export default class AuthController {
             const movie_info = await getMovieById(movie.movie_id);
             return movie_info;
         }));
+        
+        const user_movie_to_watch = await Promise.all(user.movie_to_watch.map(async (movie) => {
+            const movie_info2 = await getMovieById(movie.movie_id);
+            return movie_info2;
+        }));
 
-        const user_info = {...user?.serialize(), password: undefined, movie_favoris: user_movie_favoris}
+        const user_info = {...user?.serialize(), password: undefined, movie_favoris: user_movie_favoris, movie_to_watch: user_movie_to_watch}
         return response.status(200).json({ message: 'User retrieved succesfully', code: 200, user: user_info })
     }
 

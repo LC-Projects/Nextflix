@@ -3,6 +3,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { MovieResultsI } from "../../types/MovieResultsI";
 import Card, { FavoriteI } from "./Card";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 interface ListingProps {
   movies: MovieResultsI[];
@@ -39,7 +40,7 @@ export default function Listing({ movies, className, favoriteData }: ListingProp
       <DashboardStyled className={className && className}>
         {movies?.map((movie) => (
           <li key={movie.id}>
-            <Card data={movie} favoriteData={favoriteData} />
+              <Card data={movie} favoriteData={favoriteData} />
           </li>
         ))}
       </DashboardStyled>
@@ -79,6 +80,11 @@ const DashboardStyled = styled.ul`
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
+
+    a{
+      text-decoration: none;
+      color: inherit;
+    }
   }
 
   &.horizontal {

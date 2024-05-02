@@ -50,8 +50,8 @@ export async function fetchDB<D>(url: string, body: {} = {}, method="GET"): Prom
             accept: 'application/json',
             'content-type': 'application/json',
         },
-        body: JSON.stringify(body)
-        }
+        body: method === "GET" ? undefined : JSON.stringify(body)
+    }
     return await fetch(url, options)
         .then((response) => response.json())
         .then((data) => {return data as D})

@@ -29,7 +29,7 @@ export default function RegisterForm() {
     await AuthDB<AuthenticationI>("register", { email, password }).then(
       (res: AuthenticationI) => {
         if (res.code === 200) {
-          navigate("/");
+          navigate("/login");
         } else {
           setError(res.message);
         }

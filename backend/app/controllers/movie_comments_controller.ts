@@ -26,6 +26,18 @@ export default class MovieCommentsController {
     public async store({ request, response }: HttpContext) {
         const data = request.only(['user_id', 'movie_id', 'comment', 'rating'])
 
+        const existingComment = await MovieComment.query()
+            .where('user_id', data.user_id)
+            .andWhere('movie_id', data.movie_id)
+            .first()
+
+        if (existingComment) {
+            return response.status(409).json({
+                message: 'Movie comment already exists',
+                code: 409
+            })
+        }
+
         const movieComment = await MovieComment.create(data)
 
         return response.status(201).json({

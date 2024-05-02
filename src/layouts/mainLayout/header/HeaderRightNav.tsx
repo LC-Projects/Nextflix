@@ -21,7 +21,9 @@ export default function HeaderRightNav() {
         <FaRegCircleUser />
         <ul>
           <li><Link to="/profile">Profile</Link></li>
+          <li><Link to="/comments">Comments</Link></li>
           <li><Link to="/favorite-movies">Favorite</Link></li>
+          <li><Link to="/movies-to-watch">To watch</Link></li>
           <li onClick={handleLogout}>Logout</li>
         </ul>
       </li>

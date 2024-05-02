@@ -4,8 +4,8 @@ import { login } from "../features/auth/authSlices";
 import { AuthenticationI } from "../types/auth";
 import colors from "../variables/colors";
 import general from "../variables/general";
-import { useNavigate } from "react-router-dom";
-import { loginDB, loginWithToken } from "../api/authRequest";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthDB, loginWithToken } from "../api/authRequest";
 import { useEffect, useState } from "react";
 import { createCookie, readCookie } from "../api/utilis";
 
@@ -28,7 +28,7 @@ export default function AuthForm() {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    await loginDB(email, password).then((res: AuthenticationI) => {
+    await AuthDB<AuthenticationI>('login', {email, password}).then((res: AuthenticationI) => {
       if (res.code === 200) {
         dispatch(login({
           id: res.user.id,
@@ -83,7 +83,7 @@ export default function AuthForm() {
         <>
           <div>Welcome to</div>
           <h1>
-            TMBD <small>by Lucky Marty</small>
+            Nextflix
           </h1>
           <form onSubmit={handleSubmit}>
             <input name="email" type="mail" placeholder="Email" />
@@ -91,6 +91,7 @@ export default function AuthForm() {
 
             <button type="submit">Login</button>
           </form>
+          <p>No account yet? <Link to="/register">Create an account</Link></p>
 
           {error && <div className="error">{error}</div>}
         </>

@@ -12,6 +12,7 @@ import Movies from "./pages/movies/Movies";
 import PageLayout from "./layouts/mainLayout/PageLayout";
 import FavoriteMovies from "./pages/account/FavoriteMovies";
 import SearchMovies from "./pages/search/SearchMovies";
+import RegisterForm from "./components/RegisterForm";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         </Route>
 
         <Route path="/login" element={<AuthLayout><AuthForm /></AuthLayout>} />
+        <Route path="/register" element={<AuthLayout><RegisterForm /></AuthLayout>} />
       </Routes>
     </>
   );

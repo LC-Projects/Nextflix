@@ -11,13 +11,9 @@ export async function loginViaApi(api_key: string) {
     return await fetchData<AuthenticationI>(url, params);
 }
 
-export async function loginDB(email: string, password: string) {
-    const url = "http://localhost:3333/api/login"; 
-    const body = {
-        email,
-        password
-    }
-    return await fetchDB<AuthenticationI>(url, body, "POST");
+export async function AuthDB<ResponseI>(endpoint: string, body: any, method: string = "POST") {
+    const url = `http://localhost:3333/api/${endpoint}`; 
+    return await fetchDB<ResponseI>(url, body, method);
 }
 
 // loginDN with token

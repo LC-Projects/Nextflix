@@ -1,3 +1,5 @@
+import { FavoriteI } from "../components/listing/Card";
+
 export interface MovieResultsI {
     adult: boolean;
     backdrop_path: string;
@@ -14,4 +16,6 @@ export interface MovieResultsI {
     video: boolean;
     vote_average: number;
     vote_count: number;
+    is_favorite?: boolean;
+    to_watch?: boolean;
   }

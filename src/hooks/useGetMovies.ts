@@ -3,10 +3,14 @@ import { useEffect, useState } from "react";
 import { getMovies } from "../api/moviesRequest";
 import { MovieResultsI } from "../types/MovieResultsI";
 import APP_CONFIGS from "../variables/configs";
+import useAccount from "./useAccount";
+import { AccountI } from "../types/account/AccountFavoriteMoviesI";
 
 export default function useGetMovies(): { movies: MovieResultsI[] } {
     // Redux
-    const auth = useAppSelector((state) => state.auth);
+    const { account } = useAccount<AccountI>({
+        user_id: useAppSelector((state) => state.auth.id)
+    })
 
     //   States
     const [movies, setMovies] = useState<MovieResultsI[]>([]);
@@ -15,13 +19,29 @@ export default function useGetMovies(): { movies: MovieResultsI[] } {
         if (!APP_CONFIGS.api_key) return;
 
         (async () => {
-            const res = await getMovies(APP_CONFIGS.api_key);
+            await getMovies(APP_CONFIGS.api_key).then((res) => {
+                if (res) {
+                    const favoriteMovies = res.results.map((movie) => {
+                        const favoris = account.user?.movie_favoris?.map((item) => {
+                            if (item.id === movie.id) {
+                                return true;
+                            }
+                            return false;
+                        }) ?? [];
 
-            console.log(res)
+                        const to_watch = account.user?.movie_to_watch?.map((item) => {
+                            if (item.id === movie.id) {
+                                return true;
+                            }
+                            return false;
+                        }) ?? [];
+                        return {...movie, is_favorite: favoris.includes(true), to_watch: to_watch.includes(true)};
+                    });
+                    setMovies(favoriteMovies);
 
-            if (res) {
-                setMovies(res.results);
-            }
+                    console.log(res);
+                }
+            });
         })()
 
     }, [])

@@ -8,10 +8,12 @@ export default function Dashboard() {
   const { movies }: { movies: MovieResultsI[] } = useGetMovies();
   const { favoriteMoviesData } = useGetFavoriteMovies();
 
+  
+
   return (
     <>
       <Slider />
-      <Listing movies={movies} className="horizontal" favoriteData={favoriteMoviesData} />
+      <Listing movies={favoriteMoviesData} className="horizontal" />
       <Listing movies={movies} className="horizontal" />
     </>
   )

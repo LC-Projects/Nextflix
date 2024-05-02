@@ -1,21 +1,23 @@
 import { useEffect, useState } from 'react';
-import { FavoriteI } from '../components/listing/Card';
 import useAccount from './useAccount';
 import { AccountI } from '../types/account/AccountFavoriteMoviesI';
 import { useAppSelector } from '../app/hooks';
+import { MovieResultsI } from '../types/MovieResultsI';
 
-export default function useGetFavoriteMovies(): { favoriteMoviesData: FavoriteI[] } {
+export default function useGetFavoriteMovies(): { favoriteMoviesData: MovieResultsI[] } {
     const { account } = useAccount<AccountI>({
         user_id: useAppSelector((state) => state.auth.id)
-    })
-    const [favoriteMoviesData, setFavoriteMoviesData] = useState<FavoriteI[]>([])
-    const auth = useAppSelector((state) => state.auth)
+    });
+    const [favoriteMoviesData, setFavoriteMoviesData] = useState<MovieResultsI[]>([]);
+    const auth = useAppSelector((state) => state.auth);
 
     useEffect(() => {
+        setFavoriteMoviesData([]); // Clear the favoriteMoviesData state before adding new items
+
         account.user?.movie_favoris.map((item) => {
-            setFavoriteMoviesData((prev: FavoriteI[]) => [...prev, { id: item.movieId, favorite: true }] as FavoriteI[]);
+            setFavoriteMoviesData((prev: MovieResultsI[]) => [...prev, item] as MovieResultsI[]);
         });
     }, [account, auth.reload]);
 
-    return { favoriteMoviesData }
+    return { favoriteMoviesData };
 }

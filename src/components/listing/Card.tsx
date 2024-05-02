@@ -15,16 +15,14 @@ export interface FavoriteI {
 }
 
 export default function Card({
-  data,
-  favoriteData,
+  data
 }: {
-  data: MovieResultsI;
-  favoriteData?: FavoriteI[];
+  data: MovieResultsI
 }) {
   const auth = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  const [favorite, setFavorite] = useState(favoriteData ? true : false);
-  const [toWatch, setToWatch] = useState(favoriteData ? true : false);
+  const [favorite, setFavorite] = useState(data.is_favorite ? true : false);
+  const [toWatch, setToWatch] = useState(data.to_watch ? true : false);
 
   const handleFavorite = () => {
     if (auth.id) {
@@ -43,14 +41,8 @@ export default function Card({
   };
 
   useEffect(() => {
-    if (favoriteData) {
-      favoriteData.map((item) => {
-        if (item.id == data.id) {
-          setFavorite(true);
-        }
-      });
-    }
-  }, [favoriteData, auth.reload, favorite]);
+    // console.log('========>',data);
+  }, [auth.reload, favorite]);
 
   return (
     <CardStyled>

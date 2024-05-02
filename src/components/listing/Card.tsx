@@ -1,5 +1,6 @@
 import { FaHeart, FaPlus, FaCheck } from "react-icons/fa";
-import { MovieResultsI } from "../../types/MovieResultsI";
+import { MovieResultsI } from "../../../backend/app/api/types/MovieI";
+
 import APP_CONFIGS from "../../variables/configs";
 import styled from "styled-components";
 import colors from "../../variables/colors";
@@ -21,8 +22,8 @@ export default function Card({
 }) {
   const auth = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  const [favorite, setFavorite] = useState(data.is_favorite ? true : false);
-  const [toWatch, setToWatch] = useState(data.to_watch ? true : false);
+  const [favorite, setFavorite] = useState(data.is_favorite);
+  const [toWatch, setToWatch] = useState(data.is_to_watch);
 
   const handleFavorite = () => {
     if (auth.id) {
@@ -41,8 +42,9 @@ export default function Card({
   };
 
   useEffect(() => {
-    // console.log('========>',data);
-  }, [auth.reload, favorite]);
+    setFavorite(data.is_favorite);
+    setToWatch(data.is_to_watch);
+  }, [auth.reload, data]);
 
   return (
     <CardStyled>

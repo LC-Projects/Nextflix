@@ -1,4 +1,5 @@
-import { MoviesI } from "../types/MoviesI";
+import { MoviesI } from "../../backend/app/api/types/MovieI";
+
 import APP_CONFIGS from "../variables/configs";
 import { GiveData, fetchData } from "./utilis";
 

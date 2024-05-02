@@ -14,6 +14,8 @@ export interface MovieResultsI {
     video: boolean;
     vote_average: number;
     vote_count: number;
+    is_favorite?: boolean;
+    is_to_watch?: boolean;
 }
 
 export interface MoviesI {

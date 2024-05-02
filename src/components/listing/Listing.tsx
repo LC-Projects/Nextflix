@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { MovieResultsI } from "../../types/MovieResultsI";
+import { MovieResultsI } from "../../../backend/app/api/types/MovieI";
+
 import Card, { FavoriteI } from "./Card";
 import { useEffect } from "react";
 
@@ -11,7 +12,7 @@ interface ListingProps {
   toWatchData?: FavoriteI[]
 }
 
-export default function Listing({ movies, className, favoriteData }: ListingProps) {
+export default function Listing({ movies, className}: ListingProps) {
 
   const scrollHorizontally = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -32,8 +33,7 @@ export default function Listing({ movies, className, favoriteData }: ListingProp
   };
 
   useEffect(() => {
-    console.log(favoriteData)
-  }, [favoriteData])
+  }, [])
 
   return (
     <div>

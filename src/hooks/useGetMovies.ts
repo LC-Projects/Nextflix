@@ -1,7 +1,7 @@
 import { useAppSelector } from "../app/hooks";
 import { useEffect, useState } from "react";
 import { getMovies } from "../api/moviesRequest";
-import { MovieResultsI } from "../types/MovieResultsI";
+import { MovieResultsI } from "../../backend/app/api/types/MovieI";
 import APP_CONFIGS from "../variables/configs";
 import useAccount from "./useAccount";
 import { AccountI } from "../types/account/AccountFavoriteMoviesI";
@@ -22,29 +22,15 @@ export default function useGetMovies(): { movies: MovieResultsI[] } {
             await getMovies(APP_CONFIGS.api_key).then((res) => {
                 if (res) {
                     const favoriteMovies = res.results.map((movie) => {
-                        const favoris = account.user?.movie_favoris?.map((item) => {
-                            if (item.id === movie.id) {
-                                return true;
-                            }
-                            return false;
-                        }) ?? [];
-
-                        const to_watch = account.user?.movie_to_watch?.map((item) => {
-                            if (item.id === movie.id) {
-                                return true;
-                            }
-                            return false;
-                        }) ?? [];
-                        return {...movie, is_favorite: favoris.includes(true), to_watch: to_watch.includes(true)};
+                        const favoris = account.user?.movie_favoris.find((item) => item.id == movie.id) ? true : false;    
+                        const to_watch = account.user?.movie_to_watch?.find((item) => item.id == movie.id) ? true : false;
+                        return { ...movie, is_favorite: favoris, is_to_watch: to_watch };
                     });
                     setMovies(favoriteMovies);
-
-                    console.log(res);
                 }
             });
         })()
 
-    }, [])
-
+    }, [account])
     return { movies };
 }

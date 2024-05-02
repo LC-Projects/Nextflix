@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import useAccount from './useAccount';
 import { AccountI } from '../types/account/AccountFavoriteMoviesI';
 import { useAppSelector } from '../app/hooks';
-import { MovieResultsI } from '../types/MovieResultsI';
+import { MovieResultsI } from "../../backend/app/api/types/MovieI";
+
 
 export default function useGetFavoriteMovies(): { favoriteMoviesData: MovieResultsI[] } {
     const { account } = useAccount<AccountI>({

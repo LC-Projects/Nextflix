@@ -2,8 +2,7 @@ import styled from "styled-components";
 import Listing from "../../components/listing/Listing";
 import { FormEvent, useEffect, useState } from "react";
 import { fetchData } from "../../api/utilis";
-import { MovieResultsI } from "../../types/MovieResultsI";
-import { MoviesI } from "../../types/MoviesI";
+import { MovieResultsI, MoviesI } from "../../../backend/app/api/types/MovieI";
 import APP_CONFIGS from "../../variables/configs";
 
 export default function SearchMovies() {

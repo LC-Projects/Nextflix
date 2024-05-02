@@ -12,6 +12,7 @@ import { createCookie, readCookie } from "../api/utilis";
 export default function AuthForm() {
   // Redux
   const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(true)
 
   // Init
   const navigate = useNavigate();
@@ -48,44 +49,52 @@ export default function AuthForm() {
 
   useEffect(() => {
     const token = readCookie("token");
-    if(token){
-      async () => {
-        await loginWithToken(token).then((res: AuthenticationI) => {
-            console.log('MAMAMAMAMAMAMA->',res)
-            if (res.code === 200) {
-                dispatch(login({
-                    id: res.user.id,
-                    token: res.token.token,
-                    email: res.user.email,
-                    password: null,
-                    loading: false,
-                    error: "",
-                    reload: false
-                }));
-                navigate("/");
-            }
-            
-        });
+    if (token) {
+      loginWithToken(token).then((res: AuthenticationI) => {
+        if (res.code === 200) {
+          dispatch(login({
+            id: res.user.id,
+            token: res.user.token,
+            email: res.user.email,
+            password: null,
+            loading: false,
+            error: "",
+            reload: false
+          }));
+          navigate("/");
+        }
+
+      });
+    } else {
+      setLoading(false)
     }
-  };
   }, []);
-  
+
 
   //   Render
   return (
     <AuthFormStyled>
-      <div>Welcome to</div>
-      <h1>
-        TMBD <small>by Lucky Marty</small>
-      </h1>
-      <form onSubmit={handleSubmit}>
-        <input name="email" type="mail" placeholder="Email" />
-        <input name="password" type="password" placeholder="Password" />
-    
-        <button type="submit">Login</button>
-      </form>
 
-      {error && <div className="error">{error}</div>}
+      {loading ? (
+        <>
+          <div>Loading...</div>
+        </>
+      ) : (
+        <>
+          <div>Welcome to</div>
+          <h1>
+            TMBD <small>by Lucky Marty</small>
+          </h1>
+          <form onSubmit={handleSubmit}>
+            <input name="email" type="mail" placeholder="Email" />
+            <input name="password" type="password" placeholder="Password" />
+
+            <button type="submit">Login</button>
+          </form>
+
+          {error && <div className="error">{error}</div>}
+        </>
+      )}
 
     </AuthFormStyled>
   );

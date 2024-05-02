@@ -33,5 +33,6 @@ export interface AuthenticationI {
             comment: string
             rating: number
         }[]
+        token: string
     }
 }

@@ -58,7 +58,7 @@ export default function Card({
       <div onClick={handleToWatch} className="to_watch">
         {toWatch ? <FaCheck /> : <FaPlus />}
       </div>
-      <Link to={`movie/${data.id}`}>
+      <Link to={`/movie/${data.id}`}>
         <img src={`${APP_CONFIGS.img_url}/w185${data.poster_path}`} />
         <div>{data.title}</div>
       </Link>

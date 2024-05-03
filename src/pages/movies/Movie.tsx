@@ -21,7 +21,6 @@ export default function Movie() {
     const [movieInfo, setMovieInfo] = useState<MovieI>();
     const [comments, setComments] = useState<CommentI[]>();
     const [bgImg, setBgImg] = useState("")
-    const [trailers, setTrailers] = useState([] as MovieTrailerI[])
     const [trailerUrls, setTrailerUrls] = useState([] as string[])
 
     useEffect(() => {
@@ -37,8 +36,6 @@ export default function Movie() {
             });
 
             getMovieTrailers(id).then((res) => {
-                setTrailers(res as MovieTrailerI[])
-
                 const urls = (res as MovieTrailerI[]).map((trailer) => {
                     if (trailer.site === "YouTube") {
                         // return `https://www.youtube.com/embed/${trailer.key}`

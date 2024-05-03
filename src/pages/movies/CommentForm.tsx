@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import styled from "styled-components";
 import { setReload } from "../../features/auth/authSlices";
+import APP_CONFIGS from "../../variables/configs";
 
 function StarRating({
   rating,
@@ -46,7 +47,7 @@ function CommentForm({ movieId }: { movieId: number | string }) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await fetch("http://localhost:3333/api/movies/comments", {
+    await fetch(`${APP_CONFIGS.backend_url}/api/movies/comments`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

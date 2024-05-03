@@ -1,3 +1,4 @@
+import APP_CONFIGS from "../variables/configs";
 import { fetchDB } from "./utilis";
 
 export interface CommentsI {
@@ -22,7 +23,7 @@ export interface CommentI {
 
 // add to favorite
 export async function getCommentsByMovie(movie_id: string): Promise<CommentI[]>{
-    const url = `http://localhost:3333/api/movies/comments/byfilm/${movie_id}`;
+    const url = `${APP_CONFIGS.backend_url}/api/movies/comments/byfilm/${movie_id}`;
 
     const res: CommentsI = await fetchDB(url, {}, "GET");
     console.log('res', res)
@@ -34,7 +35,7 @@ export async function getCommentsByMovie(movie_id: string): Promise<CommentI[]>{
 }
 
 export async function getCommentsByUser(user_id: string): Promise<CommentI[]>{
-    const url = `http://localhost:3333/api/movies/comments/${user_id}`;
+    const url = `${APP_CONFIGS.backend_url}/api/movies/comments/${user_id}`;
 
     const res: CommentsI = await fetchDB(url, {}, "GET");
 

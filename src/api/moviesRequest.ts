@@ -123,7 +123,7 @@ export async function getMovieCasts(movie_id: string | number): Promise<MovieCCI
 
 // add to favorite
 export async function addFavoriteMovie(user_id: string, movie_id: number) {
-    const url = `http://localhost:3333/api/movies/favorises`;
+    const url = `${APP_CONFIGS.backend_url}/api/movies/favorises`;
     const bodyJSON = {
         user_id,
         movie_id
@@ -137,7 +137,7 @@ export async function addFavoriteMovie(user_id: string, movie_id: number) {
 
 // add to favorite
 export async function addToWatchMovie(user_id: string, movie_id: number) {
-    const url = `http://localhost:3333/api/movies/to_watch`;
+    const url = `${APP_CONFIGS.backend_url}/api/movies/to_watch`;
     const bodyJSON = {
         user_id,
         movie_id

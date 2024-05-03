@@ -1,6 +1,6 @@
 import { fetchDB } from "../api/utilis";
-import { useAppSelector } from "../app/hooks";
 import { useEffect, useState } from "react";
+import APP_CONFIGS from "../variables/configs";
 
 export default function useAccount<R>(params: object = {}): { account: R } {
 
@@ -8,7 +8,7 @@ export default function useAccount<R>(params: object = {}): { account: R } {
 
   useEffect(() => {
     const getAccount = async () => {
-      const url = `http://localhost:3333/api/account/`;
+      const url = `${APP_CONFIGS.backend_url}/api/account/`;
       const response = await fetchDB<R>(url, params, "POST");
       if (response) {
         return response;

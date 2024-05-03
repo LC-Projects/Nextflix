@@ -1,4 +1,5 @@
 import { AuthenticationI } from "../types/auth";
+import APP_CONFIGS from "../variables/configs";
 import { fetchData, fetchDB } from "./utilis";
 
 export default interface authUpdateI {
@@ -20,13 +21,13 @@ export async function loginViaApi(api_key: string) {
 }
 
 export async function AuthDB<ResponseI>(endpoint: string, body: any, method: string = "POST") {
-    const url = `http://localhost:3333/api/${endpoint}`; 
+    const url = `${APP_CONFIGS.backend_url}/api/${endpoint}`; 
     return await fetchDB<ResponseI>(url, body, method);
 }
 
 // loginDN with token
 export async function loginWithToken(token: string) {
-    const url = "http://localhost:3333/api/login_with_token"; 
+    const url = `${APP_CONFIGS.backend_url}/api/login_with_token`; 
     const body = {
         token
     }
@@ -35,6 +36,6 @@ export async function loginWithToken(token: string) {
 
 // edit user
 export async function editUser<ResponseI>(body: authUpdateI) {
-    const url = `http://localhost:3333/api/account/update/`;
+    const url = `${APP_CONFIGS.backend_url}/api/account/update/`;
     return await fetchDB<ResponseI>(url, body, "PUT");
 }

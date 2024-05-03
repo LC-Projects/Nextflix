@@ -12,6 +12,7 @@ import InfoCards from './partials/InfoCards';
 import { useAppSelector } from '../../app/hooks';
 import Comments from './partials/Comments';
 import IframeCarousel from './partials/IframeCarousel';
+import CastsList from './partials/CastsList';
 
 
 export default function Movie() {
@@ -83,6 +84,7 @@ export default function Movie() {
                     <IframeCarousel urls={trailerUrls} />
                 </div>
 
+                <CastsList id={id ?? ""} />
 
                 <Comments comments={comments} />
                 <CommentForm movieId={id ?? ''} />

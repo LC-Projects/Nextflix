@@ -80,6 +80,8 @@ const DashboardStyled = styled.ul`
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
+    width: 200px;
+    min-width: 200px;
 
     a{
       text-decoration: none;

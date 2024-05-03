@@ -55,27 +55,10 @@ export default class AuthController {
         }));
 
 
-        // movie comments
-        const user_movie_comments = await Promise.all(user.movie_comments.map(async (comment) => {
-            const movie_info = await getMovieById(comment.movie_id);
-            return {
-                ...comment.serialize(),
-                // movie_info,
-                movie: {
-                    id: movie_info?.id,
-                    poster_path: movie_info?.poster_path,
-                    backdrop_path: movie_info?.backdrop_path,
-                    title: movie_info?.title,
-                    original_title: movie_info?.original_title,
-                }
-            };
-        }));
-
 
         const user_info = {
             ...user?.serialize(),
             password: undefined,
-            movie_comments: user_movie_comments,
             movie_favoris: user_movie_favoris,
             movie_to_watch: user_movie_to_watch
         }

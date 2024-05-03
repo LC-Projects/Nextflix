@@ -1,5 +1,5 @@
 import { MovieResultsI, MoviesI } from "./types/MovieI.js";
-import { fetchData, GiveData } from "./utils.js";
+import { fetchData } from "./utils.js";
 import APP_CONFIGS from "./variables.js";
 
 

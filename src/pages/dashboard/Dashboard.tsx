@@ -12,7 +12,11 @@ export default function Dashboard() {
   return (
     <>
       <Slider />
+ 
+      <h2 style={{ marginTop: 75 }}>Favorite Movies</h2>
       <Listing movies={favoriteMoviesData} className="horizontal" />
+
+      <h2>Latest Movies</h2>
       <Listing movies={movies} className="horizontal" />
     </>
   )

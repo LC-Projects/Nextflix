@@ -71,6 +71,55 @@ export async function getMovieTrailers(movie_id: string | number) {
 };
 
 
+export interface MovieCCI {
+    id: number
+    cast: CastI[]
+    crew: CrewI[]
+}
+
+export interface CastI {
+    adult: boolean
+    gender: number
+    id: number
+    known_for_department: string
+    name: string
+    original_name: string
+    popularity: number
+    profile_path: string
+    cast_id: number
+    character: string
+    credit_id: string
+    order: number
+}
+
+export interface CrewI {
+    adult: boolean
+    gender: number
+    id: number
+    known_for_department: string
+    name: string
+    original_name: string
+    popularity: number
+    profile_path: string
+    credit_id: string
+    department: string
+    job: string
+}
+
+
+// get movie actors
+export async function getMovieCasts(movie_id: string | number): Promise<MovieCCI> {
+    const url = `https://api.themoviedb.org/3/movie/${movie_id}/credits`;
+
+    const res: MovieCCI = await fetchData(url);
+    if (res) {
+        return res
+    } else {
+        return { id: 0, cast: [], crew: [] }
+    }
+};
+
+
 
 // add to favorite
 export async function addFavoriteMovie(user_id: string, movie_id: number) {

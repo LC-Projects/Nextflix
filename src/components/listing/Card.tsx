@@ -71,8 +71,9 @@ const CardStyled = styled.article`
   position: relative;
 
   img {
-    height: 250px;
-    aspect-ratio: 2/3;
+    min-height: 250px;
+    width: 100% !important;
+    // aspect-ratio: 2/3;
     object-fit: cover;
     border-radius: 10px;
   }

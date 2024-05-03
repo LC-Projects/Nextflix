@@ -51,7 +51,7 @@ export default class MovieCommentsController {
 
     // destroy
     public async destroy({ params, response }: HttpContext) {
-        const movieComment = await MovieComment.query().where('user_id', params.id).andWhere('movie_id', params.movie_id).first()
+        const movieComment = await MovieComment.query().where('user_id', params.user_id).andWhere('movie_id', params.movie_id).first()
 
         if (!movieComment) {
             return response.status(404).json({

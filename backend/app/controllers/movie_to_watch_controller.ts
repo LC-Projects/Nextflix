@@ -51,7 +51,7 @@ export default class MovieToWatchController {
 
     // destroy
     public async destroy({ params, response }: HttpContext) {
-        const movieToWatch = await MovieToWatch.query().where('user_id', params.id).andWhere('movie_id', params.movie_id).first()
+        const movieToWatch = await MovieToWatch.query().where('user_id', params.user_id).andWhere('movie_id', params.movie_id).first()
 
         if (!movieToWatch) {
             return response.status(404).json({

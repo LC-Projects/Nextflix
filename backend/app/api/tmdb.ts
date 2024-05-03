@@ -1,4 +1,4 @@
-import { MoviesI } from "./types/MovieI.js";
+import { MovieResultsI, MoviesI } from "./types/MovieI.js";
 import { fetchData, GiveData } from "./utils.js";
 import APP_CONFIGS from "./variables.js";
 
@@ -24,7 +24,7 @@ export async function getMovieById(id: number) {
         api_key: APP_CONFIGS.api_key,
     };
 
-    const res = await fetchData<MoviesI>(url, params);
+    const res = await fetchData<MovieResultsI>(url, params);
     if (res) {
         return res
     }

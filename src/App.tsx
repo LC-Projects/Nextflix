@@ -24,8 +24,8 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             {/* Movies */}
             <Route path="/movies" element={<PageLayout title="Movies"><Movies /></PageLayout>} />
-            <Route path="/movie/:id" element={<PageLayout title="Movie"><Movie /></PageLayout>} />
-            {/* <Route path="/movies/:id" element={<Movie />} /> */}
+            {/* <Route path="/movie/:id" element={<PageLayout title="Movie"><Movie /></PageLayout>} /> */}
+            <Route path="/movie/:id" element={<Movie />} />
 
 
             <Route path="/search" element={<PageLayout title="Search"><SearchMovies /></PageLayout>} />

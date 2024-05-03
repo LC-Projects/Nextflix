@@ -23,6 +23,7 @@ router.group(() => {
 
   router.group(() => {
     router.post('/', '#controllers/auth_controller.me')
+    router.put('/update', '#controllers/auth_controller.update')	
   }).prefix('account')
 
   router.group(() => {

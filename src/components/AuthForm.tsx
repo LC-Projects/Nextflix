@@ -7,7 +7,7 @@ import general from "../variables/general";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthDB, loginWithToken } from "../api/authRequest";
 import { useEffect, useState } from "react";
-import { createCookie, readCookie } from "../api/utilis";
+import { createCookie, eraseCookie, readCookie } from "../api/utilis";
 
 export default function AuthForm() {
   // Redux
@@ -51,19 +51,26 @@ export default function AuthForm() {
     const token = readCookie("token");
     if (token) {
       loginWithToken(token).then((res: AuthenticationI) => {
-        if (res.code === 200) {
-          dispatch(login({
-            id: res.user.id,
-            token: res.user.token,
-            email: res.user.email,
-            password: null,
-            loading: false,
-            error: "",
-            reload: false
-          }));
-          navigate("/");
+        switch (res.code) {
+          case 401:
+            eraseCookie("token");
+            window.location.reload();
+            break;
+          case 200:
+            dispatch(login({
+              id: res.user.id,
+              token: res.user.token,
+              email: res.user.email,
+              password: null,
+              loading: false,
+              error: "",
+              reload: false
+            }));
+            navigate("/");
+            break;
+          default:
+            break;
         }
-
       });
     } else {
       setLoading(false)

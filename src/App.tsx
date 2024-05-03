@@ -14,6 +14,7 @@ import RegisterForm from "./components/RegisterForm";
 import Movie from "./pages/movies/Movie";
 import Comments from "./pages/account/Comments";
 import ToWatchMovies from "./pages/account/ToWatches";
+import Profile from "./pages/account/Profile";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
 
 
             <Route path="/search" element={<PageLayout title="Search"><SearchMovies /></PageLayout>} />
-            <Route path="/profile" element={<PageLayout title="Profile"><FavoriteMovies /></PageLayout>} />
+            <Route path="/profile" element={<PageLayout title="Profile"><Profile /></PageLayout>} />
             <Route path="/comments" element={<PageLayout title="Comments"><Comments /></PageLayout>} />
             <Route path="/favorite-movies" element={<PageLayout title="Favorite Movies"><FavoriteMovies /></PageLayout>} />
             <Route path="/movies-to-watch" element={<PageLayout title="Movies to watch"><ToWatchMovies /></PageLayout>} />

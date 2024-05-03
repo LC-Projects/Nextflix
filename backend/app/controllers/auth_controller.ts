@@ -8,9 +8,18 @@ import { getMovieById } from '../api/tmdb.js';
 export default class AuthController {
     public async register({ request, response }: HttpContext) {
         const payload = await request.validateUsing(registerValidator);
-        await User.create({
-            ...payload, id: randomUUID()
-        });
+        
+        try{
+            await User.create({
+                ...payload, id: randomUUID()
+            });
+        }catch(err){
+            if(err.message.includes('UNIQUE constraint failed')) {
+                return response.status(500).json({ message: 'Email already used', code: 500 })
+            }else{
+                return response.status(500).json({ message: 'Internal server error', code: 500 })
+            }
+        }
         return response.status(201).json({ message: 'User created successfully', code: 201 })
     }
 
@@ -74,5 +83,24 @@ export default class AuthController {
             return response.status(401).json({ message: 'Invalid token', code: 401 })
         }
         return response.status(200).json({ message: 'User logged succesfully', code: 200, user: user })
+    }
+
+    // update user
+    public async update({ request, response }: HttpContext) {
+        const { user_id, ...payload } = request.only(['user_id','email', 'password', 'last_name', 'first_name', 'nick_name']);
+        const user = await User.findOrFail(user_id);
+        if (!user) {
+            return response.status(404).json({ message: 'User not found', code: 404 })
+        }
+        try{
+            await user.merge(payload).save()
+        }catch(err){
+            if(err.message.includes('UNIQUE constraint failed')) {
+                return response.status(500).json({ message: 'Email already used', code: 500 })
+            }else{
+                return response.status(500).json({ message: 'Internal server error', code: 500 })
+            }
+        }
+        return response.status(200).json({ message: 'User updated succesfully', code: 200 })
     }
 }

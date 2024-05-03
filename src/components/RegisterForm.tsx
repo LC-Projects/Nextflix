@@ -4,18 +4,16 @@ import colors from "../variables/colors";
 import general from "../variables/general";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthDB } from "../api/authRequest";
-import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function RegisterForm() {
   // Init
   const navigate = useNavigate();
-  const [error, setError] = useState<string>("");
 
   // Handlers
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    setError("");
 
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     const email = formData.get("email") as string;
@@ -23,15 +21,18 @@ export default function RegisterForm() {
     const password2 = formData.get("password2") as string;
 
     if (password !== password2) {
-      setError("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
     await AuthDB<AuthenticationI>("register", { email, password }).then(
       (res: AuthenticationI) => {
-        if (res.code === 200) {
-          navigate("/login");
-        } else {
-          setError(res.message);
+        switch (res.code) {
+          case 201:
+            navigate("/login");
+            break;
+          default:
+            toast.error(res.message);
+            break;
         }
       }
     );
@@ -56,8 +57,7 @@ export default function RegisterForm() {
         </form>
 
         <p>Already have an account? <Link to="/login">Login now</Link></p>
-
-        {error && <div className="error">{error}</div>}
+        <ToastContainer />
       </>
     </AuthFormStyled>
   );

@@ -34,7 +34,7 @@ function CastsList({ id }: { id: string }) {
         <CastsListStyled>
             <h2>Casts</h2>
             <ul>
-                {casts?.map((cast, index) => (
+                {casts?.slice(0,8)?.map((cast, index) => (
                     <li key={index}>
                         <div>
                             <div className="cover" style={{ backgroundImage: `url("${cast.profile_path}")` }}></div>
@@ -52,7 +52,7 @@ function CastsList({ id }: { id: string }) {
 
             <h2>Crews</h2>
             <ul>
-                {crew?.map((crew, index) => (
+                {crew?.slice(0,8)?.map((crew, index) => (
                     <li key={index}>
                         <div>
                             <div className="cover" style={{ backgroundImage: `url("${crew.profile_path}")` }}></div>
@@ -90,7 +90,8 @@ const CastsListStyled = styled.div`
                 display: flex;
                 .cover {
                     width: 100px;
-                    height: 150px;
+                    min-height: 150px;
+                    height: 100%;
                     background-size: cover;
                     background-position: center;
                     border-radius: 10px;

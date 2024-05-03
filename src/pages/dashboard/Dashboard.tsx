@@ -7,7 +7,7 @@ import useGetFavoriteMovies from "../../hooks/useGetFavoriteMovies";
 
 export default function Dashboard() {
   const { movies }: { movies: MovieResultsI[] } = useGetMovies();
-  const { favoriteMoviesData } = useGetFavoriteMovies();
+  const { movies: favoriteMoviesData }: { movies: MovieResultsI[] } = useGetFavoriteMovies();
 
   return (
     <>

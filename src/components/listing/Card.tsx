@@ -44,7 +44,7 @@ export default function Card({
   useEffect(() => {
     setFavorite(data.is_favorite);
     setToWatch(data.is_to_watch);
-  }, [auth.reload, data]);
+  }, [data]);
 
   return (
     <CardStyled>
@@ -59,8 +59,9 @@ export default function Card({
         {toWatch ? <FaCheck /> : <FaPlus />}
       </div>
       <Link to={`/movie/${data.id}`}>
-        <img src={`${APP_CONFIGS.img_url}/w185${data.poster_path}`} />
-        <div>{data.title}</div>
+        {data.poster_path ? <img src={`${APP_CONFIGS.img_url}/w185${data.poster_path}`} /> : <img src={`https://placehold.co/167x250`} />}
+        
+        <div className="titleCard">{data.title}</div>
       </Link>
     </CardStyled>
   );
@@ -96,5 +97,9 @@ const CardStyled = styled.article`
     color: #fff;
     scale: 1.5;
     cursor: pointer;
+  }
+
+  .titleCard{
+    max-width: 166px;
   }
 `;

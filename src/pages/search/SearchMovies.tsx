@@ -4,6 +4,9 @@ import { MovieResultsI, MoviesI } from "../../../backend/app/api/types/MovieI";
 import APP_CONFIGS from "../../variables/configs";
 import Listing from "../../components/listing/Listing";
 import styled from "styled-components";
+import useAccount from "../../hooks/useAccount";
+import { AccountI } from "../../types/account/AccountFavoriteMoviesI";
+import { useAppSelector } from "../../app/hooks";
 
 interface ResultPersonI {
   page: number;
@@ -49,6 +52,11 @@ interface KnownForI {
 }
 
 export default function SearchMovies() {
+  // Redux
+  const { account } = useAccount<AccountI>({
+    user_id: useAppSelector((state) => state.auth.id),
+  });
+
   const [search, setSearch] = useState("");
   const [genre, setGenre] = useState("");
   const [year, setYear] = useState("");
@@ -85,8 +93,6 @@ export default function SearchMovies() {
   };
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget as HTMLFormElement);
@@ -143,7 +149,20 @@ export default function SearchMovies() {
         const resultat = await fetchData<MoviesI>(url, params);
 
         if (resultat) {
-          setMovies(resultat.results);
+          const filteredMovies = resultat.results.map((movie) => {
+            const favoris = account.user?.movie_favoris.find(
+              (item) => item.id == movie.id
+            )
+              ? true
+              : false;
+            const to_watch = account.user?.movie_to_watch?.find(
+              (item) => item.id == movie.id
+            )
+              ? true
+              : false;
+            return { ...movie, is_favorite: favoris, is_to_watch: to_watch };
+          });
+          setMovies(filteredMovies);
         }
       } catch (err) {
         const error: ErrorPersonI = err as ErrorPersonI;
@@ -156,7 +175,7 @@ export default function SearchMovies() {
     };
 
     searchMovies();
-  }, [search, genre, year, actor, director]);
+  }, [account, search, genre, year, actor, director]);
 
   return (
     <>

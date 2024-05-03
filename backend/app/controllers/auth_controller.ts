@@ -13,7 +13,7 @@ export default class AuthController {
         });
         return response.status(201).json({ message: 'User created successfully', code: 201 })
     }
-    
+
     public async login({ request, response }: HttpContext) {
         const payload = await request.validateUsing(loginValidator);
         const user = (await User.verifyCredentials(payload.email, payload.password));
@@ -21,16 +21,16 @@ export default class AuthController {
             return response.status(401).json({ message: 'Invalid credentials', code: 401 })
         }
         const token = await User.accessTokens.create(user);
-        await User.query().where('id', user.id).update({token: token.toJSON().token});
-        
-        const user_info = {...user?.serialize(), password: undefined}
+        await User.query().where('id', user.id).update({ token: token.toJSON().token });
+
+        const user_info = { ...user?.serialize(), password: undefined }
         return response.status(200).json({ message: 'User logged succesfully', code: 200, token: token, user: user_info })
     }
 
     public async logout({ request, response }: HttpContext) {
         const { user_id } = request.only(['user_id']);
         const user = await User.findOrFail(user_id);
-        
+
         await User.accessTokens.delete(user, user.id);
         await db.from('auth_access_tokens').where('tokenable_id', user.id).delete();
         return response.status(200).json({ message: 'User logout succesfully', code: 200 })
@@ -40,7 +40,7 @@ export default class AuthController {
         // Add favoris and to_watch
         const { user_id } = request.only(['user_id']);
         const user = await User.query().where('id', user_id).preload('movie_comments')
-        .preload("movie_favoris").preload("movie_to_watch").first();
+            .preload("movie_favoris").preload("movie_to_watch").first();
         if (!user) {
             return response.status(404).json({ message: 'User not found', code: 404 })
         }
@@ -48,13 +48,21 @@ export default class AuthController {
             const movie_info = await getMovieById(movie.movie_id);
             return movie_info;
         }));
-        
+
         const user_movie_to_watch = await Promise.all(user.movie_to_watch.map(async (movie) => {
             const movie_info2 = await getMovieById(movie.movie_id);
             return movie_info2;
         }));
 
-        const user_info = {...user?.serialize(), password: undefined, movie_favoris: user_movie_favoris, movie_to_watch: user_movie_to_watch}
+
+
+        const user_info = {
+            ...user?.serialize(),
+            password: undefined,
+            movie_favoris: user_movie_favoris,
+            movie_to_watch: user_movie_to_watch
+        }
+
         return response.status(200).json({ message: 'User retrieved succesfully', code: 200, user: user_info })
     }
 

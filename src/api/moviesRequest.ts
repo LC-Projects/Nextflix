@@ -30,6 +30,48 @@ export async function getMovie(movie_id: string | number) {
     }
 };
 
+
+
+
+export interface MovieTrailersI {
+    id: number
+    results: MovieTrailerI[]
+}
+
+export interface MovieTrailerI {
+    iso_639_1: string
+    iso_3166_1: string
+    name: string
+    key: string
+    site: string
+    size: number
+    type: string
+    official: boolean
+    published_at: string
+    id: string
+}
+// get movie trailer
+export async function getMovieTrailers(movie_id: string | number) {
+    const url = `https://api.themoviedb.org/3/movie/${movie_id}/videos`;
+
+    const res: MovieTrailersI = await fetchData(url);
+    if (res) {
+        const trailers = res.results.map((trailer) => {
+            if (trailer.site !== "YouTube") {
+                return null
+            }
+            return {
+                ...trailer,
+                url: `https://www.youtube.com/watch?v=${trailer.key}`
+            }
+        })
+
+        return trailers
+    }
+};
+
+
+
 // add to favorite
 export async function addFavoriteMovie(user_id: string, movie_id: number) {
     const url = `http://localhost:3333/api/movies/favorises`;

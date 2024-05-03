@@ -11,6 +11,13 @@ export interface CommentI {
   movieId: number;
   comment: string;
   rating: number;
+  movie: {
+    id: number;
+    poster_path: string;
+    backdrop_path: string;
+    title: string;
+    original_title: string;
+  };
 }
 
 // add to favorite

@@ -1,5 +1,6 @@
 import MovieComment from '#models/movie_comment'
 import type { HttpContext } from '@adonisjs/core/http'
+import { getMovieById } from '../api/tmdb.js'
 
 export default class MovieCommentsController {
 
@@ -79,9 +80,24 @@ export default class MovieCommentsController {
             })
         }
 
+        // movie comments
+        const movie_info = await Promise.all(movieComment.map(async (comment) => {
+            const movie_info = await getMovieById(comment.movie_id);
+            return {
+                ...comment.serialize(),
+                movie: {
+                    id: movie_info?.id,
+                    poster_path: movie_info?.poster_path,
+                    backdrop_path: movie_info?.backdrop_path,
+                    title: movie_info?.title,
+                    original_title: movie_info?.original_title,
+                }
+            };
+        }));
+
         return response.status(200).json({
             message: 'Here is your movie comment',
-            data: movieComment,
+            data: movie_info,
             code: 200
         })
     }

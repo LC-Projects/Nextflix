@@ -40,12 +40,18 @@ router.group(() => {
     router.group(() => {
       router.get('/', '#controllers/movie_to_watch_controller.index')
       router.post('/', '#controllers/movie_to_watch_controller.store')
-      router.delete('/:id', '#controllers/movie_to_watch_controller.destroy')
+      router.delete('/:user_id/:movie_id', '#controllers/movie_to_watch_controller.destroy')
       router.get('/:id', '#controllers/movie_to_watch_controller.show')
     }).prefix('to_watch')
-
-    router.resource('/comments', '#controllers/movie_comments_controller')
-    router.get('/comments/byfilm/:id', '#controllers/movie_comments_controller.showByFilm')
+    
+    //comments
+    router.group(() => {
+      router.get('/', '#controllers/movie_comments_controller.index')
+      router.post('/', '#controllers/movie_comments_controller.store')
+      router.delete('/:user_id/:movie_id', '#controllers/movie_comments_controller.destroy')
+      router.get('/:id', '#controllers/movie_comments_controller.show')
+      router.get('/byfilm/:id', '#controllers/movie_comments_controller.showByFilm')
+    }).prefix('comments');
 
   }).prefix('movies')
 

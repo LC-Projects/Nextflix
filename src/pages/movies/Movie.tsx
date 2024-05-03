@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getMovie } from '../../api/moviesRequest';
+import { MovieTrailerI, getMovie, getMovieTrailers } from '../../api/moviesRequest';
 import { MovieI } from './MovieI';
 import APP_CONFIGS from '../../variables/configs';
 import CommentForm from './CommentForm';
@@ -11,6 +11,7 @@ import colors from '../../variables/colors';
 import InfoCards from './partials/InfoCards';
 import { useAppSelector } from '../../app/hooks';
 import Comments from './partials/Comments';
+import IframeCarousel from './partials/IframeCarousel';
 
 
 export default function Movie() {
@@ -19,6 +20,8 @@ export default function Movie() {
     const [movieInfo, setMovieInfo] = useState<MovieI>();
     const [comments, setComments] = useState<CommentI[]>();
     const [bgImg, setBgImg] = useState("")
+    const [trailers, setTrailers] = useState([] as MovieTrailerI[])
+    const [trailerUrls, setTrailerUrls] = useState([] as string[])
 
     useEffect(() => {
         if (id) {
@@ -30,6 +33,19 @@ export default function Movie() {
 
             getCommentsByMovie(id).then((res) => {
                 setComments(res)
+            });
+
+            getMovieTrailers(id).then((res) => {
+                setTrailers(res as MovieTrailerI[])
+
+                const urls = (res as MovieTrailerI[]).map((trailer) => {
+                    if (trailer.site === "YouTube") {
+                        // return `https://www.youtube.com/embed/${trailer.key}`
+                        return trailer.key + "?origin=localhost:5173"
+                    }
+                    return ""
+                });
+                setTrailerUrls(urls)
             });
 
         } else {
@@ -62,7 +78,12 @@ export default function Movie() {
                 <h2>Overview</h2>
                 <p>{movieInfo?.overview}</p>
 
-                
+                <h2>Trailers</h2>
+                <div>
+                    <IframeCarousel urls={trailerUrls} />
+                </div>
+
+
                 <Comments comments={comments} />
                 <CommentForm movieId={id ?? ''} />
 

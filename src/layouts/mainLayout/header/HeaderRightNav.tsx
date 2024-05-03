@@ -1,4 +1,3 @@
-import React from "react";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { RiSearch2Line } from "react-icons/ri";
 import { useAppDispatch } from "../../../app/hooks";

@@ -1,5 +1,3 @@
-import Header from "./header/Header";
-import Footer from "./Footer";
 import styled from "styled-components";
 import PageHeader from "../../components/PageHeader";
 import { PropsWithChildren } from "react";

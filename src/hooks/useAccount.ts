@@ -1,5 +1,4 @@
 import { fetchDB } from "../api/utilis";
-import { useAppSelector } from "../app/hooks";
 import { useEffect, useState } from "react";
 
 export default function useAccount<R>(params: object = {}): { account: R } {

@@ -25,9 +25,20 @@ Projet école pour __travailler ses méthodes des tests et déploiement sur des 
 - Utilisation de l'ORM, l'authentification pour les migrations SQL
 - Organisation du travail via la méthode Scrum et sprint synchronisé.
 
+### Avancement actuel
+- Test sur la partie Front/Back-end
+- Déploiement de notre serveur sur un VPS (sans Docker)
+- Ajouts de fonctionnalitées supplémentaires à la consignes pour rendre le site plus dynamique
+
 ## Commandes
 ```
 npm install
 npm run build (x2 front et back-end)
-``` 
+```
+
+__Pour le back-end__
+```
+cd backend/
+npm run jest-test
+```
 

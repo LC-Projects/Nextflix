@@ -2,8 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthI } from "../../types/auth";
 
 const initialState: AuthI = {
-  api_key: null,
-  account_id: null,
+  id: null,
+  token: null,
+  email: null,
+  password: null,
   loading: false,
   error: null,
   reload: false,
@@ -14,12 +16,15 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action: PayloadAction<AuthI>) => {
-      state.api_key = action.payload.api_key;
-      state.account_id = action.payload.account_id;
+      state.id = action.payload.id;
+      state.token = action.payload.token;
+      state.email = action.payload.email;
+      state.password = action.payload.password;
     },
     logout: (state) => {
-      state.api_key = null;
-      state.account_id = null;
+      state.email = null;
+      state.password = null;
+      state.token = null;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;

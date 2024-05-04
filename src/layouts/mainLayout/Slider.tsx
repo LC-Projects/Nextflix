@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import useGetMovies from "../../hooks/useGetMovies";
-import { MovieResultsI } from "../../types/MovieResultsI";
+import { MovieResultsI } from "../../../backend/app/api/types/MovieI";
+
 import APP_CONFIGS from "../../variables/configs";
 
 export default function Slider() {

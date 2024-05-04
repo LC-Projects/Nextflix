@@ -1,5 +1,4 @@
 import Listing from "../../components/listing/Listing";
-import PageHeader from "../../components/PageHeader";
 import useGetMovies from "../../hooks/useGetMovies";
 
 export default function Movies() {

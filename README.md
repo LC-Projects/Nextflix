@@ -31,6 +31,7 @@ Projet école pour __travailler ses méthodes des tests et déploiement sur des 
 - Ajouts de fonctionnalitées supplémentaires à la consignes pour rendre le site plus dynamique
 
 ## Commandes
+<<<<<<< HEAD
 ```
 npm install
 npm run build (x2 front et back-end)
@@ -39,6 +40,34 @@ npm run build (x2 front et back-end)
 __Pour le back-end__
 ```
 cd backend/
+=======
+
+### Docker
+``` 
+docker-compose up -d
+```
+
+### Manuel
+
+__Pour le front-end__
+```
+npm install
+npm run dev
+```
+
+__Pour le back-end__
+
+Démarrer le serveur
+```
+cd backend/
+npm install
+node ace migration:run
+npm run dev
+```
+
+Lancement des tests
+```
+>>>>>>> a877ece948eb9b3a834b22477811e07a34b442b5
 npm run jest-test
 ```
 

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { MovieResultsI } from "../../types/MovieResultsI";
+import { MovieResultsI } from "../../../backend/app/api/types/MovieI";
+
 import Card, { FavoriteI } from "./Card";
 import { useEffect } from "react";
 
@@ -8,9 +9,10 @@ interface ListingProps {
   movies: MovieResultsI[];
   className?: "horizontal" | "vertical";
   favoriteData?: FavoriteI[]
+  toWatchData?: FavoriteI[]
 }
 
-export default function Listing({ movies, className, favoriteData }: ListingProps) {
+export default function Listing({ movies, className}: ListingProps) {
 
   const scrollHorizontally = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -31,15 +33,14 @@ export default function Listing({ movies, className, favoriteData }: ListingProp
   };
 
   useEffect(() => {
-    console.log(favoriteData)
-  }, [favoriteData])
+  }, [])
 
   return (
     <div>
       <DashboardStyled className={className && className}>
         {movies?.map((movie) => (
           <li key={movie.id}>
-            <Card data={movie} favoriteData={favoriteData} />
+              <Card data={movie} />
           </li>
         ))}
       </DashboardStyled>
@@ -50,14 +51,14 @@ export default function Listing({ movies, className, favoriteData }: ListingProp
           <FaChevronLeft
             style={{ cursor: "pointer" }}
             fontSize="2rem"
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+            onClick={(e: any) =>
               scrollHorizontally(e, "left")
             }
           />
           <FaChevronRight
             style={{ cursor: "pointer" }}
             fontSize="2rem"
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+            onClick={(e: any) =>
               scrollHorizontally(e, "right")
             }
           />
@@ -79,6 +80,13 @@ const DashboardStyled = styled.ul`
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
+    width: 200px;
+    min-width: 200px;
+
+    a{
+      text-decoration: none;
+      color: inherit;
+    }
   }
 
   &.horizontal {

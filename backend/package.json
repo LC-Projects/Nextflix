@@ -60,7 +60,6 @@
     "@adonisjs/ignitor": "^2.0.8",
     "@adonisjs/lucid": "^20.6.0",
     "@vinejs/vine": "^2.0.0",
-    "better-sqlite3": "^9.6.0",
     "luxon": "^3.4.4",
     "mysql": "^2.18.1",
     "mysql2": "^3.9.7",

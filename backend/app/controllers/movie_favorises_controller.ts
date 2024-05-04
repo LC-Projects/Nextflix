@@ -1,6 +1,5 @@
 import MovieFavoris from '#models/movie_favoris'
 import type { HttpContext } from '@adonisjs/core/http'
-import { Database } from '@adonisjs/lucid/database'
 import db from '@adonisjs/lucid/services/db'
 
 export default class MovieFavorisesController {

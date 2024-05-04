@@ -27,7 +27,8 @@ Projet école pour __travailler ses méthodes des tests et déploiement sur des 
 
 ### Avancement actuel
 - Test sur la partie Front/Back-end
-- Déploiement de notre serveur sur un VPS (sans Docker)
+- Déploiement de notre serveur sur un VPS (Docker)
+- Déploiement d'un serveur local sur Docker (via Node, MariaDB, PHPmyAdmin)
 - Ajouts de fonctionnalitées supplémentaires à la consignes pour rendre le site plus dynamique
 
 ## Commandes
@@ -40,5 +41,12 @@ __Pour le back-end__
 ```
 cd backend/
 npm run jest-test
+```
+
+__Pour docker__
+Il faut Docker installé et lancé pour dockeriser le projet
+```
+(git bash) git pull origin dockerizing
+A la racine du projet lancer cette commande : docker-compose up -d
 ```
 

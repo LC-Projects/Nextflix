@@ -69,7 +69,7 @@ services:
       - ./:/usr/src/app
       - node_modules:/usr/src/app/node_modules
     tty: true
-    command: npm run dev
+    command: /bin/sh -c "yarn && yarn dev"
     depends_on:
       - backend
 

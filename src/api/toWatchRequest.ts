@@ -1,3 +1,4 @@
+import APP_CONFIGS from "../variables/configs"
 import { fetchDB } from "./utilis"
 
 export interface ToWatchesI {

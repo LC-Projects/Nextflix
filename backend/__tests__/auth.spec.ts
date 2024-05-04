@@ -1,4 +1,4 @@
-const { test, expect, describe, afterAll, beforeAll } = require('@jest/globals')
+const { test, expect, describe } = require('@jest/globals')
 const axios = require('axios')
 
 let userId = ''
@@ -102,7 +102,7 @@ describe('=============== Movie comments ===============', () => {
   })
 
   // add comment
-  test('update', async () => {
+  test('Add comment', async () => {
     let response
     try {
       response = await axios.post('http://localhost:3333/api/movies/comments', {

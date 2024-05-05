@@ -253,8 +253,18 @@ const SearchMoviesStyled = styled.form`
   input {
     padding: 10px 15px;
     border: 1px solid #ccc;
-    border-radius: 5px 0 0 5px;
+    border-radius: 5px;
     outline: none;
+    margin-right: 10px;
+  }
+
+  select {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    margin-right: 10px;
+    margin-left: 10px;
   }
 
   button {

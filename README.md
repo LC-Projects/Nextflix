@@ -34,6 +34,7 @@ Projet école pour __travailler ses méthodes des tests et déploiement sur des 
 
 ### Docker
 ``` 
+docker-compose up --build
 docker-compose up -d
 ```
 
@@ -57,6 +58,7 @@ npm run dev
 
 Lancement des tests
 ```
+cd backend/
 npm run jest-test
 ```
 

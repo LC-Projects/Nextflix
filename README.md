@@ -5,7 +5,7 @@ Projet école pour __travailler ses méthodes des tests et déploiement sur des 
 | | |
 |----|---------|
 | Thème | NetFlix |
-| Technologies | SQLLite3 + Tmdb + AdonisJS |
+| Technologies | MySQL + API Tmdb + AdonisJS |
 | Front | ReactJS |
 | Back | NodeJS |
 
@@ -13,7 +13,7 @@ Projet école pour __travailler ses méthodes des tests et déploiement sur des 
 - Confrontation des langages souhaitées apportant une richesse culturelle et une facilité de développement : TypeScript + JavaScript
 - Choix du framework AdonisJS disposant de composant permettant d'optimiser nos tests unitaire et qui favorise un déploiemen et une évolutilité accessible au long du projet.
 - Organisation de notre architecture logicielle (décomposition via API REST du back-end)
-- Création d'une base de données locale et facile à manipuler pour ne pas dissocier la communication entre le serveur SSH et celui de BDD : Sqllite3
+- Création d'une base de données locale et facile à manipuler pour ne pas dissocier la communication entre le serveur SSH et celui de BDD : MySQL
 - Build complet du projet via GitHub
 - Travail du design et de la réponse à la problèmatique donnée suivant le cahier des charges fonctionnel énuméré avec une deadline de 4 jours de développement 
 - Test unitaire et déploiement avec l'utilisation de GitHub Pages

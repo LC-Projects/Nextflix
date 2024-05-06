@@ -4,13 +4,15 @@ import { login } from "../features/auth/authSlices";
 import { AuthenticationI } from "../types/auth";
 import colors from "../variables/colors";
 import general from "../variables/general";
-import { useNavigate } from "react-router-dom";
-import { loginViaApi } from "../api/authRequest";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthDB, loginWithToken } from "../api/authRequest";
+import { useEffect, useState } from "react";
+import { createCookie, eraseCookie, readCookie } from "../api/utilis";
 
 export default function AuthForm() {
   // Redux
   const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(true)
 
   // Init
   const navigate = useNavigate();
@@ -22,40 +24,85 @@ export default function AuthForm() {
 
     setError("");
 
-    const api_key = e.currentTarget.apikey.value;
-    const account_id = e.currentTarget.accountId.value;
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
 
-    await loginViaApi(api_key).then((res: AuthenticationI) => {
-      if (res.success) {
+    await AuthDB<AuthenticationI>('login', {email, password}).then((res: AuthenticationI) => {
+      if (res.code === 200) {
         dispatch(login({
-          api_key,
-          account_id,
+          id: res.user.id,
+          token: res.token.token,
+          email: res.user.email,
+          password,
           loading: false,
           error: "",
           reload: false
         }));
+        createCookie("token", res.token.token)
         navigate("/");
       } else {
-        setError(res.status_message);
+        setError(res.message);
       }
     });
   };
 
+  useEffect(() => {
+    const token = readCookie("token");
+    if (token) {
+      loginWithToken(token).then((res: AuthenticationI) => {
+        switch (res.code) {
+          case 401:
+            eraseCookie("token");
+            window.location.reload();
+            break;
+          case 200:
+            dispatch(login({
+              id: res.user.id,
+              token: res.user.token,
+              email: res.user.email,
+              password: null,
+              loading: false,
+              error: "",
+              reload: false
+            }));
+            navigate("/");
+            break;
+          default:
+            break;
+        }
+      });
+    } else {
+      setLoading(false)
+    }
+  }, []);
+
+
   //   Render
   return (
     <AuthFormStyled>
-      <div>Welcome to</div>
-      <h1>
-        TMBD <small>by Lucky Marty</small>
-      </h1>
-      <form onSubmit={handleSubmit}>
-        <input name="apikey" type="text" placeholder="API KEY" />
-        <input name="accountId" type="text" placeholder="Account ID" />
-    
-        <button type="submit">Login</button>
-      </form>
 
-      {error && <div className="error">{error}</div>}
+      {loading ? (
+        <>
+          <div>Loading...</div>
+        </>
+      ) : (
+        <>
+          <div>Welcome to</div>
+          <h1>
+            Nextflix
+          </h1>
+          <form onSubmit={handleSubmit}>
+            <input name="email" type="mail" placeholder="Email" />
+            <input name="password" type="password" placeholder="Password" />
+
+            <button type="submit">Login</button>
+          </form>
+          <p>No account yet? <Link to="/register">Create an account</Link></p>
+
+          {error && <div className="error">{error}</div>}
+        </>
+      )}
 
     </AuthFormStyled>
   );
